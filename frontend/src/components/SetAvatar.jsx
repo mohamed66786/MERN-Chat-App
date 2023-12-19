@@ -13,12 +13,10 @@ export default function SetAvatar() {
   const [avatars, setAvatars] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedAvatar, setSelectedAvatar] = useState(undefined);
- 
 
   useEffect(() => {
     const getIt = async () => {
-      if (!localStorage.getItem("chat-app-current-user"))
-        navigate("/login");
+      if (!localStorage.getItem("chat-app-current-user")) navigate("/login");
     };
     getIt();
   }, [navigate]);
@@ -28,9 +26,12 @@ export default function SetAvatar() {
       toast.error("Please select an avatar");
     } else {
       const user = await JSON.parse(
-        localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+        localStorage.getItem("chat-app-current-user")
       );
-
+      if (!user) {
+        toast.error("Please Login first");
+        navigate("/login");
+      }
       const { data } = await axios.post(`${setAvatarRoute}/${user._id}`, {
         image: avatars[selectedAvatar],
       });
@@ -39,9 +40,10 @@ export default function SetAvatar() {
         user.isAvatarImageSet = true;
         user.avatarImage = data.image;
         localStorage.setItem(
-          process.env.REACT_APP_LOCALHOST_KEY,
+          "chat-app-current-user",
           JSON.stringify(user)
         );
+        toast.success("Avatar updated successfully")
         navigate("/");
       } else {
         toast.error("Error setting avatar. Please try again.");
