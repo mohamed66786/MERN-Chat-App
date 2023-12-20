@@ -40,8 +40,7 @@ const register = asyncHandler(async (req, res, next) => {
   }
 });
 
-
-const setAvatar=asyncHandler(async(req,res,next)=>{
+const setAvatar = asyncHandler(async (req, res, next) => {
   try {
     const userId = req.params.id;
     const avatarImage = req.body.image;
@@ -60,10 +59,25 @@ const setAvatar=asyncHandler(async(req,res,next)=>{
   } catch (ex) {
     next(ex);
   }
-})
+});
+
+const getAllUsers = asyncHandler(async (req, res, next) => {
+  try {
+    const users = await ChatUsers.find({ _id: { $ne: req.params.id } }).select([
+      "email",
+      "username",
+      "avatarImage",
+      "_id",
+    ]);
+    return res.json(users);
+  } catch (error) {
+    return next(error);
+  }
+});
 
 module.exports = {
   login,
   register,
   setAvatar,
+  getAllUsers,
 };
