@@ -20,9 +20,7 @@ export default function Chat() {
         navigate("/login");
       } else {
         setCurrentUser(
-          await JSON.parse(
-            localStorage.getItem("chat-app-current-user")
-          )
+          await JSON.parse(localStorage.getItem("chat-app-current-user"))
         );
       }
     };
@@ -83,6 +81,7 @@ const Container = styled.div`
     width: 85vw;
     background-color: #00000076;
     display: grid;
+    border-radius: 25px;
     grid-template-columns: 25% 75%;
     @media screen and (min-width: 720px) and (max-width: 1080px) {
       grid-template-columns: 35% 65%;

@@ -75,9 +75,19 @@ const getAllUsers = asyncHandler(async (req, res, next) => {
   }
 });
 
+const logOut = asyncHandler(async (req, res, next) => {
+  try {
+    if (!req.params.id) return res.json({ msg: "User id is required " });
+    return res.status(200).send();
+  } catch (ex) {
+    next(ex);
+  }
+});
+
 module.exports = {
   login,
   register,
   setAvatar,
   getAllUsers,
+  logOut,
 };

@@ -72,6 +72,8 @@ const Container = styled.div`
   grid-template-rows: 10% 75% 15%;
   overflow: hidden;
   background-color: #080420;
+  border-top-left-radius: 25px;
+  border-bottom-left-radius: 25px;
   .brand {
     display: flex;
     align-items: center;

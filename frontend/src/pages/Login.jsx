@@ -43,7 +43,7 @@ export default function Login() {
       if (data.status === false) {
         toast.error(data.msg);
       }
-      if (data.status === true) {
+      else if (data.status === true) {
         toast.success("User Logged in Successfully");
         localStorage.setItem(
           "chat-app-current-user",

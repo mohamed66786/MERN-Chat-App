@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 // import ChatInput from "./ChatInput";
-// import Logout from "./Logout.jsx";
+import Logout from "./components/Logout.jsx";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import { sendMessageRoute, recieveMessageRoute } from "../utils/ApiRoutes";
@@ -14,7 +14,7 @@ export default function ChatContainer({ currentChat, socket }) {
   useEffect(() => {
     const callIt = async () => {
       const data = await JSON.parse(
-        localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+        localStorage.getItem("chat-app-current-user")
       );
       const response = await axios.post(recieveMessageRoute, {
         from: data._id,
@@ -22,7 +22,7 @@ export default function ChatContainer({ currentChat, socket }) {
       });
       setMessages(response.data);
     };
-    callIt();
+    // callIt();
   }, [currentChat]);
 
   useEffect(() => {
@@ -86,7 +86,7 @@ export default function ChatContainer({ currentChat, socket }) {
             <h3>{currentChat.username}</h3>
           </div>
         </div>
-        {/* <Logout /> */}
+        <Logout />
       </div>
       <div className="chat-messages">
         {messages.map((message) => {
