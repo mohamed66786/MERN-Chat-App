@@ -27,12 +27,12 @@ export default function Chat() {
     callIt();
   }, [navigate]);
 
-  useEffect(() => {
-    if (currentUser) {
-      socket.current = io(host);
-      socket.current.emit("add-user", currentUser._id);
-    }
-  }, [currentUser]);
+  // useEffect(() => {
+  //   if (currentUser) {
+  //     socket.current = io(host);
+  //     socket.current.emit("add-user", currentUser._id);
+  //   }
+  // }, [currentUser]);
 
   useEffect(() => {
     const callIt = async () => {
@@ -75,7 +75,6 @@ const Container = styled.div`
   gap: 1rem;
   align-items: center;
   background-color: #131324;
-
   .container {
     height: 85vh;
     width: 85vw;
@@ -85,6 +84,12 @@ const Container = styled.div`
     grid-template-columns: 25% 75%;
     @media screen and (min-width: 720px) and (max-width: 1080px) {
       grid-template-columns: 35% 65%;
+    }
+    @media (max-width: 720px ){
+      grid-template-columns: 38% 62%;
+      height: 100vh;
+      width: 100vw;
+
     }
   }
 `;

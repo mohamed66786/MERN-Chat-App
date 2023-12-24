@@ -6,9 +6,7 @@ export default function Welcome() {
   useEffect(() => {
     const callIt = async () => {
       setUserName(
-        await JSON.parse(
-          localStorage.getItem("chat-app-current-user")
-        ).username
+        await JSON.parse(localStorage.getItem("chat-app-current-user")).username
       );
     };
     callIt();
@@ -16,10 +14,12 @@ export default function Welcome() {
   return (
     <Container>
       <img src={Robot} alt="" />
-      <h1>
-        Welcome, <span>{userName}!</span>
-      </h1>
-      <h3>Please select a chat to Start messaging.</h3>
+      <div className="info">
+        <h1>
+          Welcome, <span>{userName}!</span>
+        </h1>
+        <h3>Please select a chat to Start messaging.</h3>
+      </div>
     </Container>
   );
 }
@@ -35,5 +35,11 @@ const Container = styled.div`
   }
   span {
     color: #4e0eff;
+  }
+  @media (max-width: 720px) {
+    display: block;
+    .info {
+      width: 100%;
+    }
   }
 `;

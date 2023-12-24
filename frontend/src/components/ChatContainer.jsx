@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
-// import ChatInput from "./ChatInput";
+import ChatInput from "./ChatInput.jsx";
 import Logout from "./components/Logout.jsx";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
@@ -29,7 +29,7 @@ export default function ChatContainer({ currentChat, socket }) {
     const getCurrentChat = async () => {
       if (currentChat) {
         await JSON.parse(
-          localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+          localStorage.getItem("chat-app-current-user")
         )._id;
       }
     };
@@ -38,7 +38,7 @@ export default function ChatContainer({ currentChat, socket }) {
 
   const handleSendMsg = async (msg) => {
     const data = await JSON.parse(
-      localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+      localStorage.getItem("chat-app-current-user")
     );
     socket.current.emit("send-msg", {
       to: currentChat._id,
@@ -56,21 +56,21 @@ export default function ChatContainer({ currentChat, socket }) {
     setMessages(msgs);
   };
 
-  useEffect(() => {
-    if (socket.current) {
-      socket.current.on("msg-recieve", (msg) => {
-        setArrivalMessage({ fromSelf: false, message: msg });
-      });
-    }
-  }, [socket]);
+  // useEffect(() => {
+  //   if (socket.current) {
+  //     socket.current.on("msg-recieve", (msg) => {
+  //       setArrivalMessage({ fromSelf: false, message: msg });
+  //     });
+  //   }
+  // }, [socket]);
 
-  useEffect(() => {
-    arrivalMessage && setMessages((prev) => [...prev, arrivalMessage]);
-  }, [arrivalMessage]);
+  // useEffect(() => {
+  //   arrivalMessage && setMessages((prev) => [...prev, arrivalMessage]);
+  // }, [arrivalMessage]);
 
-  useEffect(() => {
-    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  // useEffect(() => {
+  //   scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+  // }, [messages]);
 
   return (
     <Container>
@@ -105,7 +105,7 @@ export default function ChatContainer({ currentChat, socket }) {
           );
         })}
       </div>
-      {/* <ChatInput handleSendMsg={handleSendMsg} /> */}
+      <ChatInput handleSendMsg={handleSendMsg} /> 
     </Container>
   );
 }

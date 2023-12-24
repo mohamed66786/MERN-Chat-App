@@ -74,6 +74,7 @@ const Container = styled.div`
   background-color: #080420;
   border-top-left-radius: 25px;
   border-bottom-left-radius: 25px;
+ 
   .brand {
     display: flex;
     align-items: center;
@@ -112,6 +113,14 @@ const Container = styled.div`
       gap: 1rem;
       align-items: center;
       transition: 0.5s ease-in-out;
+
+      @media (max-width: 720px) {
+        background-color: transparent;
+        flex-direction: column;
+        width: 100px;
+        
+      }
+
       .avatar {
         img {
           height: 3rem;
@@ -124,7 +133,12 @@ const Container = styled.div`
       }
     }
     .selected {
-      background-color: #9a86f3;
+      @media (max-width: 720px) {
+        border: 3px solid green;
+      }
+      @media (min-width: 720px) {
+        background-color: #9a86f3;
+      }
     }
   }
 
@@ -153,5 +167,12 @@ const Container = styled.div`
         }
       }
     }
+    @media (max-width: 720px) {
+      height:100px;
+      display:flex;
+      .username{
+        display: none;
+      }
+      }
   }
 `;
