@@ -86,7 +86,7 @@ const Container = styled.div`
       grid-template-columns: 35% 65%;
     }
     @media (max-width: 720px ){
-      grid-template-columns: 38% 62%;
+      grid-template-columns: 28% 72%;
       height: 100vh;
       width: 100vw;
 

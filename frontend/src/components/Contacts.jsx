@@ -45,7 +45,11 @@ export default function Contacts({ contacts, changeChat }) {
                     />
                   </div>
                   <div className="username">
-                    <h3>{contact.username}</h3>
+                    <h3>
+                      {contact.username.length > 7
+                        ? contact.username.slice(0, 7) + ".."
+                        : contact.username}
+                    </h3>
                   </div>
                 </div>
               );
@@ -59,7 +63,11 @@ export default function Contacts({ contacts, changeChat }) {
               />
             </div>
             <div className="username">
-              <h2>{currentUserName}</h2>
+              <h2>
+                {currentUserName.length > 7
+                  ? currentUserName.slice(0, 7) + ".."
+                  : currentUserName}
+              </h2>
             </div>
           </div>
         </Container>
@@ -74,7 +82,7 @@ const Container = styled.div`
   background-color: #080420;
   border-top-left-radius: 25px;
   border-bottom-left-radius: 25px;
- 
+
   .brand {
     display: flex;
     align-items: center;
@@ -118,7 +126,6 @@ const Container = styled.div`
         background-color: transparent;
         flex-direction: column;
         width: 100px;
-        
       }
 
       .avatar {
@@ -133,12 +140,7 @@ const Container = styled.div`
       }
     }
     .selected {
-      @media (max-width: 720px) {
-        border: 3px solid green;
-      }
-      @media (min-width: 720px) {
         background-color: #9a86f3;
-      }
     }
   }
 
@@ -168,11 +170,11 @@ const Container = styled.div`
       }
     }
     @media (max-width: 720px) {
-      height:100px;
-      display:flex;
-      .username{
+      height: 100px;
+      display: flex;
+      .username {
         display: none;
       }
-      }
+    }
   }
 `;

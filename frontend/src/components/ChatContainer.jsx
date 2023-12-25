@@ -28,9 +28,7 @@ export default function ChatContainer({ currentChat, socket }) {
   useEffect(() => {
     const getCurrentChat = async () => {
       if (currentChat) {
-        await JSON.parse(
-          localStorage.getItem("chat-app-current-user")
-        )._id;
+        await JSON.parse(localStorage.getItem("chat-app-current-user"))._id;
       }
     };
     getCurrentChat();
@@ -83,7 +81,11 @@ export default function ChatContainer({ currentChat, socket }) {
             />
           </div>
           <div className="username">
-            <h3>{currentChat.username}</h3>
+            <h3>
+              {currentChat.username.length > 7
+                ? currentChat.username.slice(0, 7) + ".."
+                : currentChat.username}
+            </h3>
           </div>
         </div>
         <Logout />
@@ -105,7 +107,7 @@ export default function ChatContainer({ currentChat, socket }) {
           );
         })}
       </div>
-      <ChatInput handleSendMsg={handleSendMsg} /> 
+      <ChatInput handleSendMsg={handleSendMsg} />
     </Container>
   );
 }
@@ -122,14 +124,14 @@ const Container = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 2rem;
+    padding: 0 1rem;
     .user-details {
       display: flex;
       align-items: center;
       gap: 1rem;
       .avatar {
         img {
-          height: 3rem;
+          height: 2rem;
         }
       }
       .username {
