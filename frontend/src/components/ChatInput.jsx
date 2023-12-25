@@ -13,8 +13,10 @@ export default function ChatInput({ handleSendMsg }) {
   };
 
   useEffect(() => {
-    setScreenWidth(window.screen.width);
-  }, [window.screen.width]);
+    window.addEventListener("resize", ()=>{
+      setScreenWidth(window.screen.width);
+    });
+  }, []);
 
   const handleEmojiClick = (emojiObject) => {
     let message = msg;
@@ -40,6 +42,7 @@ export default function ChatInput({ handleSendMsg }) {
             {showEmojiPicker && (
               <Picker
                 width={screenWidth < 720 ? 250 : 400}
+                height={screenWidth < 720 ? 380 : 450}
                 onEmojiClick={handleEmojiClick}
               />
             )}
@@ -89,6 +92,9 @@ const Container = styled.div`
       .emoji-picker-react {
         position: absolute;
         top: -470px;
+        @media (max-width: 720px) {
+          top: -390px;
+        }
       }
       @media (max-width: 720px) {
         margin-right: 5px;
@@ -120,7 +126,7 @@ const Container = styled.div`
     }
     button {
       padding: 0.3rem 2rem;
-      border-radius: 0rem;
+      border-radius: 1.5rem;
       display: flex;
       justify-content: center;
       align-items: center;

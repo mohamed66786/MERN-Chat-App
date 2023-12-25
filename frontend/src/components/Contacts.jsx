@@ -6,6 +6,14 @@ export default function Contacts({ contacts, changeChat }) {
   const [currentUserName, setCurrentUserName] = useState(undefined);
   const [currentUserImage, setCurrentUserImage] = useState(undefined);
   const [currentSelected, setCurrentSelected] = useState(undefined);
+  const [screenWidth, setScreenWidth] = useState(0);
+
+  useEffect(() => {
+    window.addEventListener("resize", ()=>{
+      setScreenWidth(window.screen.width);
+    });
+  }, []);
+
   useEffect(() => {
     const callIt = async () => {
       const data = await JSON.parse(
@@ -26,7 +34,7 @@ export default function Contacts({ contacts, changeChat }) {
         <Container>
           <div className="brand">
             <img src={Logo} alt="logo" />
-            <h3>Chat App</h3>
+            <h3>{screenWidth<720?"chat":"chat me"}</h3>
           </div>
           <div className="contacts">
             {contacts.map((contact, index) => {
@@ -46,7 +54,7 @@ export default function Contacts({ contacts, changeChat }) {
                   </div>
                   <div className="username">
                     <h3>
-                      {contact.username.length > 7
+                      {contact.username.length > 7 && screenWidth < 720
                         ? contact.username.slice(0, 7) + ".."
                         : contact.username}
                     </h3>
@@ -64,7 +72,7 @@ export default function Contacts({ contacts, changeChat }) {
             </div>
             <div className="username">
               <h2>
-                {currentUserName.length > 7
+                {currentUserName.length > 7 && screenWidth < 720
                   ? currentUserName.slice(0, 7) + ".."
                   : currentUserName}
               </h2>
@@ -80,13 +88,11 @@ const Container = styled.div`
   grid-template-rows: 10% 75% 15%;
   overflow: hidden;
   background-color: #080420;
-  border-top-left-radius: 25px;
-  border-bottom-left-radius: 25px;
 
   .brand {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 0.2rem;
     justify-content: center;
     img {
       height: 2rem;
@@ -140,7 +146,7 @@ const Container = styled.div`
       }
     }
     .selected {
-        background-color: #9a86f3;
+      background-color: #9a86f3;
     }
   }
 

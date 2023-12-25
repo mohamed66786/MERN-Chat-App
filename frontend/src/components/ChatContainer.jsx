@@ -22,7 +22,7 @@ export default function ChatContainer({ currentChat, socket }) {
       });
       setMessages(response.data);
     };
-    // callIt();
+    callIt();
   }, [currentChat]);
 
   useEffect(() => {
@@ -38,11 +38,11 @@ export default function ChatContainer({ currentChat, socket }) {
     const data = await JSON.parse(
       localStorage.getItem("chat-app-current-user")
     );
-    socket.current.emit("send-msg", {
-      to: currentChat._id,
-      from: data._id,
-      msg,
-    });
+    // socket.current.emit("send-msg", {
+    //   to: currentChat._id,
+    //   from: data._id,
+    //   msg,
+    // });
     await axios.post(sendMessageRoute, {
       from: data._id,
       to: currentChat._id,
@@ -168,12 +168,15 @@ const Container = styled.div`
         @media screen and (min-width: 720px) and (max-width: 1080px) {
           max-width: 70%;
         }
+        @media (max-width: 720px) {
+          max-width: 90%;
+        }
       }
     }
     .sended {
       justify-content: flex-end;
       .content {
-        background-color: #4f04ff21;
+        background-color: blue;
       }
     }
     .recieved {
