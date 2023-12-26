@@ -8,6 +8,8 @@ import { sendMessageRoute, recieveMessageRoute } from "../utils/ApiRoutes";
 
 export default function ChatContainer({ currentChat, socket }) {
   const [messages, setMessages] = useState([]);
+  const [writing, setWriting] = useState(false);
+  const [renderWriting, setRenderWriting] = useState(false);
   const scrollRef = useRef();
   const [arrivalMessage, setArrivalMessage] = useState(null);
 
@@ -34,15 +36,54 @@ export default function ChatContainer({ currentChat, socket }) {
     getCurrentChat();
   }, [currentChat]);
 
+  // writing messages loader... ####################
+  useEffect(() => {
+    const callIt = async () => {
+      const data = await JSON.parse(
+        localStorage.getItem("chat-app-current-user")
+      );
+      if (writing) {
+        socket.current.emit("writing-msg", {
+          to: currentChat._id,
+          from: data._id,
+        });
+      }
+    };
+    callIt();
+  }, [writing, currentChat._id, socket]);
+  useEffect(() => {
+    const callIt = async () => {
+      const data = await JSON.parse(
+        localStorage.getItem("chat-app-current-user")
+      );
+      if (!writing) {
+        socket.current.emit("not-writing-msg", {
+          to: currentChat._id,
+          from: data._id,
+        });
+      }
+    };
+    callIt();
+  }, [writing, currentChat._id, socket]);
+
+  socket.current.on("other-writing-msg", () => {
+    setRenderWriting(true);
+  });
+  socket.current.on("other-not-writing-msg", () => {
+    setRenderWriting(false);
+  });
+
+  //################################################
+
   const handleSendMsg = async (msg) => {
     const data = await JSON.parse(
       localStorage.getItem("chat-app-current-user")
     );
-    // socket.current.emit("send-msg", {
-    //   to: currentChat._id,
-    //   from: data._id,
-    //   msg,
-    // });
+    socket.current.emit("send-msg", {
+      to: currentChat._id,
+      from: data._id,
+      msg,
+    });
     await axios.post(sendMessageRoute, {
       from: data._id,
       to: currentChat._id,
@@ -54,21 +95,22 @@ export default function ChatContainer({ currentChat, socket }) {
     setMessages(msgs);
   };
 
-  // useEffect(() => {
-  //   if (socket.current) {
-  //     socket.current.on("msg-recieve", (msg) => {
-  //       setArrivalMessage({ fromSelf: false, message: msg });
-  //     });
-  //   }
-  // }, [socket]);
+  // #################################
+  useEffect(() => {
+    if (socket.current) {
+      socket.current.on("msg-recieve", (msg) => {
+        setArrivalMessage({ fromSelf: false, message: msg });
+      });
+    }
+  }, [socket]);
 
-  // useEffect(() => {
-  //   arrivalMessage && setMessages((prev) => [...prev, arrivalMessage]);
-  // }, [arrivalMessage]);
+  useEffect(() => {
+    arrivalMessage && setMessages((prev) => [...prev, arrivalMessage]);
+  }, [arrivalMessage]);
 
-  // useEffect(() => {
-  //   scrollRef.current?.scrollIntoView({ behavior: "smooth" });
-  // }, [messages]);
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   return (
     <Container>
@@ -106,8 +148,9 @@ export default function ChatContainer({ currentChat, socket }) {
             </div>
           );
         })}
+        <div className="writing">{renderWriting ? <h1>....</h1> : null}</div>
       </div>
-      <ChatInput handleSendMsg={handleSendMsg} />
+      <ChatInput data={{ handleSendMsg, setWriting }} />
     </Container>
   );
 }
@@ -148,11 +191,16 @@ const Container = styled.div`
     gap: 1rem;
     overflow: auto;
     &::-webkit-scrollbar {
-      width: 0.2rem;
+      width: 0.5rem;
       &-thumb {
         background-color: #ffffff39;
         width: 0.1rem;
         border-radius: 1rem;
+      }
+    }
+    @media (max-width: 720px) {
+      &::-webkit-scrollbar {
+        width: 0;
       }
     }
     .message {
@@ -183,6 +231,25 @@ const Container = styled.div`
       justify-content: flex-start;
       .content {
         background-color: #9900ff20;
+      }
+    }
+    .writing {
+      background-color: #9900ff20;
+      width: fit-content;
+      border-radius: 20%;
+      display: flex;
+      justify-content: space-between;
+      h1 {
+        padding: 1rem;
+        max-width: 40%;
+        font-size: 20px;
+        color: white;
+        @media screen and (min-width: 720px) and (max-width: 1080px) {
+          max-width: 70%;
+        }
+        @media (max-width: 720px) {
+          max-width: 90%;
+        }
       }
     }
   }

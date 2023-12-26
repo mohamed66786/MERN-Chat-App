@@ -4,19 +4,28 @@ import { IoMdSend } from "react-icons/io";
 import styled from "styled-components";
 import Picker from "emoji-picker-react";
 
-export default function ChatInput({ handleSendMsg }) {
+export default function ChatInput(data) {
   const [msg, setMsg] = useState("");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [screenWidth, setScreenWidth] = useState(0);
   const handleEmojiPickerhideShow = () => {
     setShowEmojiPicker(!showEmojiPicker);
   };
+  // console.log(data);
 
   useEffect(() => {
-    window.addEventListener("resize", ()=>{
+    window.addEventListener("resize", () => {
       setScreenWidth(window.screen.width);
     });
   }, []);
+
+  useEffect(() => {
+    if (msg.length > 0) {
+      data.data.setWriting(true);
+    } else if (msg.length === 0) {
+      data.data.setWriting(false);
+    }
+  }, [msg.length, data.data]);
 
   const handleEmojiClick = (emojiObject) => {
     let message = msg;
@@ -28,7 +37,7 @@ export default function ChatInput({ handleSendMsg }) {
   const sendChat = (event) => {
     event.preventDefault();
     if (msg.length > 0) {
-      handleSendMsg(msg);
+      data.data.handleSendMsg(msg);
       setMsg("");
     }
   };

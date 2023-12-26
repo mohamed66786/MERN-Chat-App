@@ -27,12 +27,13 @@ export default function Chat() {
     callIt();
   }, [navigate]);
 
-  // useEffect(() => {
-  //   if (currentUser) {
-  //     socket.current = io(host);
-  //     socket.current.emit("add-user", currentUser._id);
-  //   }
-  // }, [currentUser]);
+  // listen for the user by socket.io client ######################
+  useEffect(() => {
+    if (currentUser) {
+      socket.current = io(host);
+      socket.current.emit("add-user", currentUser._id);
+    }
+  }, [currentUser]);
 
   useEffect(() => {
     const callIt = async () => {

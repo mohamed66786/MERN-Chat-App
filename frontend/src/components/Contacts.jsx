@@ -116,6 +116,11 @@ const Container = styled.div`
         border-radius: 1rem;
       }
     }
+    @media (max-width: 720px) {
+      &::-webkit-scrollbar {
+        width: 0;
+      }
+    }
     .contact {
       background-color: #ffffff34;
       min-height: 5rem;
