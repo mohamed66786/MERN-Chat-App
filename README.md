@@ -6,5 +6,5 @@ clone this app in your device
 # Second:
 run command (npm install) in the backend and frontend folder
 # End:
-run command (npm run all) in the root folder folder
+run command (npm run all) in the root folder
 
