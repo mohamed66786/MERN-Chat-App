@@ -25,7 +25,7 @@ Mohamed Tarek</a></h1>
 
 - 📫 How to reach me **mohamedtarek7080@gmail.com**
 
-- 📄 Know about my experiences <a href="https://github.com/mohamed66786/my-page/blob/8394ebe328bea4bd436887fbb4deabd7f7c3b227/public/Mohamed%20Tarek%20Abdallah.pdf" target="_blank">Resume</a>
+- 📄 Know about my experiences <a href="https://github.com/mohamed66786/my-page/blob/2fdca456238ebfd0b92fb79de8ab4d240f4fbac0/public/Mohamed%20Tarek%20Abdallah.pdf" target="_blank">Resume</a>
 <br/>
 <h3 align="center" > <img src="https://media.giphy.com/media/iY8CRBdQXODJSCERIr/giphy.gif" width="30" height="30" style="margin-right: 10px;">Connect with me 🤝 </h3>
 
